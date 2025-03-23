@@ -12,11 +12,6 @@ namespace TodoList.Controllers
             return View(todoItems);
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
         public IActionResult Create(TodoItem item) {
 
             if (ModelState.IsValid)
@@ -28,7 +23,6 @@ namespace TodoList.Controllers
             return View(item);
         }
 
-
         public IActionResult Edit(int id)
         {
             var item = todoItems.FirstOrDefault(x => x.Id == id);
@@ -38,6 +32,7 @@ namespace TodoList.Controllers
             }
             return View(item);
         }
+
         [HttpPost]
         public IActionResult Edit(TodoItem item) {
 
@@ -53,6 +48,27 @@ namespace TodoList.Controllers
             }
 
             return View(item);
+        }
+
+        public IActionResult Update(TodoItem item)
+        {
+                var exItem = todoItems.FirstOrDefault(x => x.Id == item.Id);
+                if (exItem == null)
+                {
+                    return NotFound();
+                }
+                exItem.IsCompleted = item.IsCompleted;
+                return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var item = todoItems.FirstOrDefault(x => x.Id == id);
+            if (item == null) {
+                return NotFound();
+            }
+            todoItems.Remove(item);
+            return RedirectToAction("Index");
         }
     }
 }
