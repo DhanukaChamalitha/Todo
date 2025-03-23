@@ -11,16 +11,18 @@ namespace TodoList.Controllers
         {
             return View(todoItems);
         }
-
+      
         public IActionResult Create(TodoItem item) {
 
             if (ModelState.IsValid)
-            { 
+            {
                 item.Id = nextId++;
                 todoItems.Add(item);
                 return RedirectToAction("Index");
-            }            
-            return View(item);
+            }
+            else { 
+                return RedirectToAction("Index");
+            }          
         }
 
         public IActionResult Edit(int id)
@@ -43,11 +45,10 @@ namespace TodoList.Controllers
                 }
 
                 exItem.Title = item.Title;
-                exItem.IsCompleted = item.IsCompleted;
                 return RedirectToAction("Index");
             }
 
-            return View(item);
+            return RedirectToAction("Edit");
         }
 
         public IActionResult Update(TodoItem item)

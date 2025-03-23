@@ -2,22 +2,27 @@
 
 <h2>Edit Item</h2>
 
-<form asp-action="Edit"> 
-	<input type="hidden" asp-for="Id" />
-	<div>
+<form asp-action="Edit" class="edit-item-form" onsubmit="return validateForm()">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" value="@Model.Title" />
+    </div>
 
-		<label asp-for="Title"></label>
-		<input asp-for="Title" />
-
-	</div>
-
-	<div>
-		<label asp-for="IsCompleted"></label>
-		<input asp-for="IsCompleted" />
-	</div>
-
-	<div>
-		<input type="submit" value="Save"/>
-	</div>
-
+    <div>
+        <input class="btn btn-sm btn-primary" type="submit" value="Update" />
+    </div>
 </form>
+
+<script>
+    function validateForm() {
+        const titleInput = document.querySelector('input[name="Title"]');
+        if (titleInput.value.trim() === '') {
+            alert('Title cannot be empty.');
+            navigator("Edit");
+            return false;
+        }
+        alert('Title update successfully');
+        return true;
+    }
+</script>
